@@ -1,7 +1,16 @@
 #!/bin/bash
 # OpenRA packaging script for Windows
 
-set -o errexit -o pipefail || exit $?
+set -euo pipefail
+
+trap 'cleanup' ERR
+
+base_dir=$(pwd)
+
+function cleanup() {
+	rm -f $base_dir/packaging/windows/rcedit-x64.exe
+	rm -f $base_dir/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
+}
 
 command -v curl >/dev/null 2>&1 || command -v wget > /dev/null 2>&1 || { echo >&2 "Windows packaging requires curl or wget."; exit 1; }
 command -v makensis >/dev/null 2>&1 || { echo >&2 "Windows packaging requires makensis."; exit 1; }
@@ -55,13 +64,17 @@ function makelauncher()
 	install_windows_launcher "${SRCDIR}" "${BUILTDIR}" "win-${PLATFORM}" "${MOD_ID}" "${LAUNCHER_NAME}" "${DISPLAY_NAME}" "${FAQ_URL}" "${TAG}"
 
 	# Use rcedit to patch the generated EXE with missing assembly/PortableExecutable information because .NET 6 ignores that when building on Linux.
-	# Using a backwards version tag because rcedit is unable to set versions starting with a letter.
-	wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-product-version "${BACKWARDS_TAG}"
-	wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "ProductName" "OpenRA"
-	wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "CompanyName" "The OpenRA team"
-	wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "FileDescription" "${LAUNCHER_NAME} mod for OpenRA"
-	wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "LegalCopyright" "Copyright (c) The OpenRA Developers and Contributors"
-	wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-icon "${BUILTDIR}/${MOD_ID}.ico"
+	# Using a backwards version tag because rcedit is unable to set versions
+	# starting with a letter.
+
+	echo "not running wine64..."
+
+	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-product-version "${BACKWARDS_TAG}"
+	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "ProductName" "OpenRA"
+	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "CompanyName" "The OpenRA team"
+	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "FileDescription" "${LAUNCHER_NAME} mod for OpenRA"
+	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "LegalCopyright" "Copyright (c) The OpenRA Developers and Contributors"
+	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-icon "${BUILTDIR}/${MOD_ID}.ico"
 }
 
 function build_platform()
@@ -85,8 +98,8 @@ function build_platform()
 	makelauncher "TiberianDawn" "Tiberian Dawn" "cnc" "${PLATFORM}"
 	makelauncher "Dune2000" "Dune 2000" "d2k" "${PLATFORM}"
 
-	echo "Building Windows setup.exe ($1)"
-	makensis -V2 -DSRCDIR="${BUILTDIR}" -DTAG="${TAG}" -DSUFFIX="${SUFFIX}" -DOUTFILE="${OUTPUTDIR}/OpenRA-${TAG}-${PLATFORM}.exe" ${USE_PROGRAMFILES32} OpenRA.nsi
+	echo "Not building Windows setup.exe ($1)"
+	# makensis -V2 -DSRCDIR="${BUILTDIR}" -DTAG="${TAG}" -DSUFFIX="${SUFFIX}" -DOUTFILE="${OUTPUTDIR}/OpenRA-${TAG}-${PLATFORM}.exe" ${USE_PROGRAMFILES32} OpenRA.nsi
 
 	echo "Packaging zip archive ($1)"
 	pushd "${BUILTDIR}" > /dev/null
@@ -99,4 +112,4 @@ function build_platform()
 
 build_platform "x86"
 build_platform "x64"
-rm rcedit-x64.exe
+cleanup

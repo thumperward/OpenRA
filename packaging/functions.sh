@@ -23,9 +23,10 @@
 #   Mod SDK Windows packaging
 #   Mod SDK macOS packaging
 #   Mod SDK Linux AppImage packaging
-install_assemblies() (
-	set -o errexit || exit $?
 
+set -euo pipefail
+
+install_assemblies() (
 	SRC_PATH="${1}"
 	DEST_PATH="${2}"
 	TARGETPLATFORM="${3}"
@@ -99,8 +100,6 @@ install_assemblies() (
 #   Mod SDK macOS packaging
 #   Mod SDK Windows packaging
 install_data() (
-	set -o errexit || exit $?
-
 	SRC_PATH="${1}"
 	DEST_PATH="${2}"
 	shift 2
@@ -118,7 +117,7 @@ install_data() (
 	install -d "${DEST_PATH}/mods"
 	cp -r "${SRC_PATH}/mods/common" "${DEST_PATH}/mods/"
 
-	while [ -n "${1}" ]; do
+	while [ -n "${1:-}" ]; do
 		MOD_ID="${1}"
 		if [ "${MOD_ID}" = "ra" ] || [ "${MOD_ID}" = "cnc" ] || [ "${MOD_ID}" = "d2k" ]; then
 			echo "Installing mod ${MOD_ID} to ${DEST_PATH}"
@@ -144,8 +143,6 @@ install_data() (
 #   Windows packaging
 #   Mod SDK Windows packaging
 install_windows_launcher() (
-	set -o errexit || exit $?
-
 	SRC_PATH="${1}"
 	DEST_PATH="${2}"
 	TARGETPLATFORM="${3}"
@@ -183,8 +180,6 @@ install_windows_launcher() (
 #   Mod SDK macOS packaging
 #   Mod SDK Windows packaging
 set_engine_version() (
-	set -o errexit || exit $?
-
 	VERSION="${1}"
 	DEST_PATH="${2}"
 	echo "${VERSION}" > "${DEST_PATH}/VERSION"
@@ -203,11 +198,9 @@ set_engine_version() (
 #   Mod SDK macOS packaging
 #   Mod SDK Windows packaging
 set_mod_version() (
-	set -o errexit || exit $?
-
 	VERSION="${1}"
 	shift
-	while [ -n "${1}" ]; do
+	while [ -n "${1:-}" ]; do
 		MOD_YAML_PATH="${1}"
 		awk -v v="${VERSION}" '{sub("Version:.*$", "Version: " v); print $0}' "${MOD_YAML_PATH}" > "${MOD_YAML_PATH}.tmp"
 		awk -v v="${VERSION}" '{sub("/[^/]*: User$", "/"v ": User"); print $0}' "${MOD_YAML_PATH}.tmp" > "${MOD_YAML_PATH}"
@@ -228,8 +221,6 @@ set_mod_version() (
 # Used by:
 #   Makefile (install-linux-shortcuts target for local installs and downstream packaging)
 install_linux_shortcuts() (
-	set -o errexit || exit $?
-
 	SRC_PATH="${1}"
 	BUILD_PATH="${2}"
 	OPENRA_PATH="${3}"
@@ -298,8 +289,6 @@ install_linux_shortcuts() (
 # Used by:
 #   Makefile (install-linux-appdata target for local installs and downstream packaging)
 install_linux_appdata() (
-	set -o errexit || exit $?
-
 	SRC_PATH="${1}"
 	BUILD_PATH="${2}"
 	SHARE_PATH="${3}"
