@@ -4,22 +4,19 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"ms-dotnettools.csharp",
-				"openra.oraide-vscode",
-				"openra.vscode-openra-lua",
 				"EditorConfig.EditorConfig",
 				"macabeus.vscode-fluent",
-				"ms-vscode.makefile-tools",
 				"ms-dotnettools.csdevkit",
-				"ms-vscode.powershell"
+				"ms-dotnettools.csharp",
+				"ms-vscode.makefile-tools",
+				"ms-vscode.powershell",
+				"openra.oraide-vscode",
+				"openra.vscode-openra-lua"
 			]
 		}
 	},
 	"features": {},
-	"containerEnv": {
-		"PATH": "PATH=/usr/lib/wine:$PATH"
-	},
-	"postStartCommand": {
+	"postAttachCommand": {
 		"safe-dir": "git config --global --add safe.directory ${containerWorkspaceFolder}",
 		"dependencies": "sudo apt-get update && sudo apt-get install -y --no-install-recommends nsis wine64 imagemagick"
 	}

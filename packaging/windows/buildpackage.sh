@@ -12,6 +12,8 @@ function cleanup() {
 	rm -f $base_dir/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
 }
 
+export PATH=/usr/lib/wine:$PATH
+
 command -v curl >/dev/null 2>&1 || command -v wget > /dev/null 2>&1 || { echo >&2 "Windows packaging requires curl or wget."; exit 1; }
 command -v makensis >/dev/null 2>&1 || { echo >&2 "Windows packaging requires makensis."; exit 1; }
 command -v convert >/dev/null 2>&1 || { echo >&2 "Windows packaging requires ImageMagick."; exit 1; }
