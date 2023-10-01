@@ -45,11 +45,11 @@ elif [[ ${TAG} == playtest* ]]; then
 	SUFFIX=" (playtest)"
 fi
 
-if command -v curl >/dev/null 2>&1; then
-	curl -s -L -O https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe
-else
-	wget -cq https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe
-fi
+# if command -v curl >/dev/null 2>&1; then
+# 	curl -s -L -O https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe
+# else
+# 	wget -cq https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe
+# fi
 
 function makelauncher()
 {
@@ -71,12 +71,12 @@ function makelauncher()
 
 	echo "not running wine64..."
 
-	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-product-version "${BACKWARDS_TAG}"
-	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "ProductName" "OpenRA"
-	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "CompanyName" "The OpenRA team"
-	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "FileDescription" "${LAUNCHER_NAME} mod for OpenRA"
-	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "LegalCopyright" "Copyright (c) The OpenRA Developers and Contributors"
-	# wine64 rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-icon "${BUILTDIR}/${MOD_ID}.ico"
+	# wine64 $HOME/rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-product-version "${BACKWARDS_TAG}"
+	# wine64 $HOME/rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "ProductName" "OpenRA"
+	# wine64 $HOME/rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "CompanyName" "The OpenRA team"
+	# wine64 $HOME/rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "FileDescription" "${LAUNCHER_NAME} mod for OpenRA"
+	# wine64 $HOME/rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-version-string "LegalCopyright" "Copyright (c) The OpenRA Developers and Contributors"
+	# wine64 $HOME/rcedit-x64.exe "${BUILTDIR}/${LAUNCHER_NAME}.exe" --set-icon "${BUILTDIR}/${MOD_ID}.ico"
 }
 
 function build_platform()
