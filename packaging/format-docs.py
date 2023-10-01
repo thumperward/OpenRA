@@ -14,14 +14,14 @@ from collections import OrderedDict
 def format_type_name(typeName, isKnownType):
     name = typeName
     if name.endswith("Info"):
-        name = name[0:-4]
+        name = name[:-4]
 
     return f'[`{name}`](#{name.lower()})' if isKnownType else f'`{name}`'
 
 def is_known_type(typeName, types):
     name = typeName
     if name.endswith("Info"):
-        name = name[0:-4]
+        name = name[:-4]
 
     result = [t for t in types if name == t["Name"]]
     return len(result) > 0
@@ -41,22 +41,24 @@ def format_docs(version, collectionName, types, relatedEnums):
 
     title = ""
     explanation = ""
-    if collectionName == "TraitInfos":
+    if collectionName == "SpriteSequenceTypes":
+        title = "Sprite sequences"
+        explanation = "all sprite sequence types with their properties and their default values plus developer commentary"
+
+    elif collectionName == "TraitInfos":
         title = "Traits"
         explanation = "all traits with their properties and their default values plus developer commentary"
     elif collectionName == "WeaponTypes":
         title = "Weapons"
         explanation = "a template for weapon definitions and the types it can use (warheads and projectiles) with default values and developer commentary"
-    elif collectionName == "SpriteSequenceTypes":
-        title = "Sprite sequences"
-        explanation = "all sprite sequence types with their properties and their default values plus developer commentary"
-
     print(f"# {title}\n")
     print(f"This documentation is aimed at modders and has been automatically generated for version `{version}` of OpenRA. " +
-				"Please do not edit it directly, but instead add new `[Desc(\"String\")]` tags to the source code.\n")
+    "Please do not edit it directly, but instead add new `[Desc(\"String\")]` tags to the source code.\n")
 
     print(f"Listed below are {explanation}.")
-    print(f"Related types with their possible values are listed [at the bottom](#related-value-types-enums).")
+    print(
+        "Related types with their possible values are listed [at the bottom](#related-value-types-enums)."
+    )
 
     for namespace in typesByNamespace:
         print(f'\n## {namespace}')
@@ -68,8 +70,11 @@ def format_docs(version, collectionName, types, relatedEnums):
                 print(f'**{currentType["Description"]}**')
 
             if "InheritedTypes" in currentType and currentType["InheritedTypes"]:
-                inheritedTypes = [t for t in currentType["InheritedTypes"] if t not in ['TraitInfo', 'Warhead']] # Remove blacklisted types.
-                if inheritedTypes:
+                if inheritedTypes := [
+                    t
+                    for t in currentType["InheritedTypes"]
+                    if t not in ['TraitInfo', 'Warhead']
+                ]:
                     print("\n> Inherits from: " + ", ".join([format_type_name(x, is_known_type(x, types)) for x in inheritedTypes]) + '.')
 
             if "RequiresTraits" in currentType and currentType["RequiresTraits"]:
@@ -78,8 +83,8 @@ def format_docs(version, collectionName, types, relatedEnums):
 
             if len(currentType["Properties"]) > 0:
                 print()
-                print(f'| Property | Default Value | Type | Description |')
-                print(f'| -------- | ------------- | ---- | ----------- |')
+                print('| Property | Default Value | Type | Description |')
+                print('| -------- | ------------- | ---- | ----------- |')
 
                 for prop in currentType["Properties"]:
 
@@ -94,10 +99,7 @@ def format_docs(version, collectionName, types, relatedEnums):
                             enumReferences[prop["InternalType"]] = [currentType["Name"]]
 
                     if "OtherAttributes" in prop:
-                        attributes = []
-                        for attribute in prop["OtherAttributes"]:
-                            attributes.append(attribute["Name"])
-
+                        attributes = [attribute["Name"] for attribute in prop["OtherAttributes"]]
                         defaultValue = ''
                         if prop["DefaultValue"]:
                             defaultValue = prop["DefaultValue"]
