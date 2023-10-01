@@ -16,7 +16,11 @@
 		}
 	},
 	"features": {},
+	"containerEnv": {
+		"PATH": "PATH=/usr/lib/wine:$PATH"
+	},
 	"postStartCommand": {
-		"safe-dir": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+		"safe-dir": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+		"dependencies": "sudo apt-get update && sudo apt-get install -y --no-install-recommends nsis wine64 imagemagick"
 	}
 }

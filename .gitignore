@@ -54,3 +54,7 @@ update.log
 
 # IntelliJ files
 .idea
+
+# Temporary packaging directories
+build/windows/
+packaging/windows/build/
