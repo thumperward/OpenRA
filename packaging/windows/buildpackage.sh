@@ -48,14 +48,14 @@ function make_windows_launcher() {
 
 	convert "${ARTWORK_DIR}/${MOD_ID}_16x16.png" "${ARTWORK_DIR}/${MOD_ID}_24x24.png" "${ARTWORK_DIR}/${MOD_ID}_32x32.png" "${ARTWORK_DIR}/${MOD_ID}_48x48.png" "${ARTWORK_DIR}/${MOD_ID}_256x256.png" "${BUILTDIR}/${MOD_ID}.ico"
 
-	rm -rf "${SRCDIR}/OpenRA.WindowsLauncher/obj" || :
+	rm -rf "${SRCDIR}/src/OpenRA.WindowsLauncher/obj" || :
 
 	# See https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-publish for details.
 	# Unfortunately there doesn't seem to be a way to set FileDescription and it uses the value of -p:LauncherName.
 	# -p:Product sets the "Product name" field.
 	# -p:InformationalVersion seems to set the "Product version" field.
 	# -p:DisplayName doesn't seem to have a visible effect?
-	dotnet publish "${SRCDIR}/OpenRA.WindowsLauncher/OpenRA.WindowsLauncher.csproj" -c Release -r "win-${PLATFORM}" -p:LauncherName="${LAUNCHER_NAME}",TargetPlatform="${PLATFORM}",ModID="${MOD_ID}",PublishDir="${BUILTDIR}",FaqUrl="${FAQ_URL}",InformationalVersion="${TAG}" --self-contained true
+	dotnet publish "${SRCDIR}/src/OpenRA.WindowsLauncher/OpenRA.WindowsLauncher.csproj" -c Release -r "win-${PLATFORM}" -p:LauncherName="${LAUNCHER_NAME}",TargetPlatform="${PLATFORM}",ModID="${MOD_ID}",PublishDir="${BUILTDIR}",FaqUrl="${FAQ_URL}",InformationalVersion="${TAG}" --self-contained true
 
 	# NET 6 is unable to customize the application host for windows when compiling from Linux,
 	# so we must patch the properties we need in the PE header.

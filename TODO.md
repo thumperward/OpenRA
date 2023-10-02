@@ -12,8 +12,10 @@ packaging/windows/buildpackage.sh $(git tag | tail -1) $(pwd)/build/windows
     and depend on one another
 -   Don't build multiple architectures at once at the script level
 -   Unify makefiles (somehow)
--   Clean up script litter everywhere
--   Move the C# source into one top level directory
+-   ~Clean up script litter everywhere~
+-   ~Move the C# source into one top level directory~
+-   Fix the launch scripts (easier when there is no more disparity between
+    regular and package builds)
 -   Verify that all builds still work
 -   Investigate a generic cross-platform build process
 -   Pre-commit
