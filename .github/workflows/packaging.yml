@@ -121,7 +121,7 @@ jobs:
       - name: Package Installers
         run: |
           mkdir -p build/windows
-          ./packaging/windows/buildpackage.sh "${GIT_TAG}" "${PWD}/build/windows"
+          ./packaging/windows_cross/buildpackage.sh "${GIT_TAG}" "${PWD}/build/windows"
 
       - name: Upload Packages
         uses: svenstaro/upload-release-action@v2
