@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # Patch *.dll.config files to use system libraries, working around issues with directories and naming schemes
 set -euo pipefail
 

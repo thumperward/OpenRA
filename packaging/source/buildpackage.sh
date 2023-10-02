@@ -6,8 +6,7 @@ if [ $# -ne "2" ]; then
 	exit 1
 fi
 
-cd $(dirname "$0")
-. ../functions.sh
+cd "$(dirname "$0")"
 
 TAG="$1"
 OUTPUTDIR="$2"

@@ -18,7 +18,8 @@
 				"ms-vscode.cpptools-extension-pack",
 				"nico-castell.linux-desktop-file",
 				"timonwong.shellcheck",
-				"bungcip.better-toml"
+				"bungcip.better-toml",
+				"foxundermoon.shell-format"
 			]
 		}
 	},
