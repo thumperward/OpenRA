@@ -57,4 +57,4 @@ update.log
 
 # Temporary packaging directories
 build/windows/
-packaging/windows/build/
+packaging/windows_cross/build/

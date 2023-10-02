@@ -1,7 +1,7 @@
 # TODO
 
 ```sh
-packaging/windows/buildpackage.sh $(git tag | tail -1) $(pwd)/build/windows
+packaging/windows_cross/buildpackage.sh $(git tag | tail -1) $(pwd)/build/windows
 ```
 
 ## Overall
@@ -10,7 +10,7 @@ packaging/windows/buildpackage.sh $(git tag | tail -1) $(pwd)/build/windows
     platforms
 -   Have proper phases for each section, which can be linked to make targets,
     and depend on one another
--   Don't build multiple architectures at once at the script level
+-   ~Don't build multiple architectures at once at the script level~
 -   Unify makefiles (somehow)
 -   ~Clean up script litter everywhere~
 -   ~Move the C# source into one top level directory~
@@ -23,7 +23,7 @@ packaging/windows/buildpackage.sh $(git tag | tail -1) $(pwd)/build/windows
 
 ## Windows
 
--   Rename to windows_cross
+-   ~Rename to windows_cross~
 -   Investigate native packaging etc as well
 -   Fix resource hacking
 

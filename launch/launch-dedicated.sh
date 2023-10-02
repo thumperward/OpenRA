@@ -6,7 +6,7 @@
 #  Read the file to see which settings you can override
 set -euo pipefail
 
-ENGINEDIR=$(dirname "$0")/../packaging/windows/build
+ENGINEDIR=$(dirname "$0")/../packaging/windows_cross/build
 if command -v mono >/dev/null 2>&1 && [ "$(grep -c .NETCoreApp,Version= "${ENGINEDIR}/OpenRA.Server.dll")" = "0" ]; then
      RUNTIME_LAUNCHER="mono --debug"
 else

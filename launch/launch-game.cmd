@@ -18,11 +18,11 @@ goto choosemod
 
 :launchmod
 cd %~dp0%
-..\packaging\windows\build\OpenRA.exe Engine.LaunchPath="%~dpf0" Game.Mod=%mod% %*
+..\packaging\windows_cross\build\OpenRA.exe Engine.LaunchPath="%~dpf0" Game.Mod=%mod% %*
 goto end
 :launch
 cd %~dp0%
-..\packaging\windows\build\OpenRA.exe Engine.LaunchPath="%~dpf0" %*
+..\packaging\windows_cross\build\OpenRA.exe Engine.LaunchPath="%~dpf0" %*
 
 :end
 if %errorlevel% neq 0 goto crashdialog
