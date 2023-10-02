@@ -14,14 +14,14 @@ SRC_PATH="${1}"  # Path to the root OpenRA directory
 DEST_PATH="${2}" # Path to the root of the install destination
 shift 2
 
-"${SRC_PATH}/packaging/fetch-geoip.sh"
+"${SRC_PATH}/packaging/shared/fetch-geoip.sh"
 
 echo "Installing engine files to ${DEST_PATH}..."
 
 files=(
 	VERSION AUTHORS COPYING
-	packaging/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
-	"packaging/global mix database.dat"
+	res/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
+	"res/global mix database.dat"
 )
 for file in "${files[@]}"; do
 	install -m644 "${SRC_PATH}/${file}" "${DEST_PATH}"

@@ -22,10 +22,10 @@ function All-Command
 		Write-Host "Build succeeded." -ForegroundColor Green
 	}
 
-	if (!(Test-Path "./packaging/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP") -Or (((get-date) - (get-item "./packaging/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP").LastWriteTime) -gt (new-timespan -days 30)))
+	if (!(Test-Path "./res/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP") -Or (((get-date) - (get-item "./res/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP").LastWriteTime) -gt (new-timespan -days 30)))
 	{
 		Write-Output "Downloading IP2Location GeoIP database."
-		$target = Join-Path $pwd.ToString() "./packaging/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP"
+		$target = Join-Path $pwd.ToString() "./res/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP"
 		[Net.ServicePointManager]::SecurityProtocol = 'Tls12'
 		(New-Object System.Net.WebClient).DownloadFile("https://github.com/OpenRA/GeoIP-Database/releases/download/monthly/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP", $target)
 	}
