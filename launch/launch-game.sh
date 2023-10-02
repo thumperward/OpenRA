@@ -1,7 +1,7 @@
 #! /bin/bash
 set -euo pipefail
 
-ENGINEDIR=$(dirname "$0")/../src/bin
+ENGINEDIR=$(dirname "$0")/../packaging/windows/build
 if command -v mono >/dev/null 2>&1 && [ "$(grep -c .NETCoreApp,Version= "${ENGINEDIR}/OpenRA.dll")" = "0" ]; then
 	RUNTIME_LAUNCHER="mono --debug"
 else
@@ -37,7 +37,7 @@ if [ z"${*#*Game.Mod=}" = z"$*" ]; then
 fi
 
 # Launch the engine with the appropriate arguments
-${RUNTIME_LAUNCHER} "${ENGINEDIR}/OpenRA.dll" Engine.EngineDir=".." Engine.LaunchPath="${LAUNCHPATH}" ${MODARG} "$@" && rc=0 || rc=$?
+${RUNTIME_LAUNCHER} "${ENGINEDIR}/OpenRA.dll" Engine.LaunchPath="${LAUNCHPATH}" ${MODARG} "$@" && rc=0 || rc=$?
 
 # Show a crash dialog if something went wrong
 if [ "${rc}" != 0 ] && [ "${rc}" != 1 ]; then
