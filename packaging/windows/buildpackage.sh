@@ -4,9 +4,9 @@ set -euo pipefail
 function build() {
 	echo "Building binaries (${ARCH})..."
 
-	echo "${TAG}" >"${BUILTDIR}/VERSION"
 	# Set parameter 5 to False to disable generation of OpenRA.exe
 	../install-assemblies.sh "${SRCDIR}" "${BUILTDIR}" "win-${ARCH}" "net6" "True" "True" "True"
+	echo "${TAG}" >"${BUILTDIR}/VERSION"
 }
 
 function configure_mods() {
