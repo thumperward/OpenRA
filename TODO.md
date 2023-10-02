@@ -1,7 +1,7 @@
 # TODO
 
 ```sh
-packaging/windows_cross/buildpackage.sh $(git tag | tail -1) $(pwd)/build/windows
+packaging/windows_cross/buildpackage.sh
 ```
 
 ## Overall

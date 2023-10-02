@@ -1,33 +1,35 @@
 # FROM mcr.microsoft.com/devcontainers/dotnet:0-6.0
-FROM mcr.microsoft.com/devcontainers/base:ubuntu
+FROM mcr.microsoft.com/devcontainers/base:debian-11
 
 # Add backports.
-# RUN echo "deb http://deb.debian.org/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list
+RUN echo "deb http://deb.debian.org/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list
 
 # Install dependencies.
 RUN apt-get update && apt-get install -y --no-install-recommends \
   nsis \
   imagemagick \
   wine64 \
-  dotnet-sdk-6.0 \
   shellcheck
 
-# # Install updated packages from backports.
-# RUN apt-get update && sudo apt-get install -y --no-install-recommends \
-#   curl/bullseye-backports \
-#   wine64/bullseye-backports
+# Install dotnet SDK and PowerShell.
+RUN curl -SOL https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb \
+  && dpkg -i packages-microsoft-prod.deb \
+  && rm packages-microsoft-prod.deb \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends \
+  dotnet-sdk-6.0 \
+  powershell
+
+# Install updated packages from backports.
+RUN apt-get update && sudo apt-get install -y --no-install-recommends \
+  curl/bullseye-backports \
+  wine64/bullseye-backports
 
 # Install AppImageTool.
 RUN curl -SLO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage \
   && install appimagetool-x86_64.AppImage /usr/local/bin \
   && rm appimagetool-x86_64.AppImage
 
-# Install PowerShell.
-RUN curl -SOL https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb \
-  && dpkg -i packages-microsoft-prod.deb \
-  && rm packages-microsoft-prod.deb \
-  && apt-get update \
-  && apt-get install -y powershell
 
 # Download rcdedit.
 USER vscode
