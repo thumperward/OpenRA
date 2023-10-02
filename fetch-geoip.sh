@@ -1,8 +1,8 @@
-#!/bin/sh
+#! /bin/bash
 # Download the IP2Location country database for use by the game server
 set -euo pipefail
 
-cd $(dirname "$0")
+cd "$(dirname "$0")"
 
 # Database does not exist or is older than 30 days.
 if [ -z "$(find . -path ./IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP -mtime -30 -print)" ]; then
