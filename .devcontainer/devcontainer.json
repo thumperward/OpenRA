@@ -13,12 +13,16 @@
 				"ms-vscode.makefile-tools",
 				"ms-vscode.powershell",
 				"openra.oraide-vscode",
-				"openra.vscode-openra-lua"
+				"openra.vscode-openra-lua",
+				"idleberg.nsis",
+				"ms-vscode.cpptools-extension-pack",
+				"nico-castell.linux-desktop-file",
+				"timonwong.shellcheck"
 			]
 		}
 	},
 	"features": {},
 	"postAttachCommand": {
-		"safe-dir": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+		"safe-dir": "git config --global --add safe.directory ${containerWorkspaceFolder}"
 	}
 }
