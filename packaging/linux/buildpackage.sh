@@ -28,10 +28,10 @@ function build_linux_appimage() {
 		IS_D2K="True"
 	fi
 
-	../install-assemblies.sh "${SRCDIR}" "${APPDIR}/usr/lib/openra" "linux-x64" "net6" "True" "True" "${IS_D2K}"
-	../install-data.sh "${SRCDIR}" "${APPDIR}/usr/lib/openra" "${MOD_ID}"
+	../shared/install-assemblies.sh "${SRCDIR}" "${APPDIR}/usr/lib/openra" "linux-x64" "net6" "True" "True" "${IS_D2K}"
+	../shared/install-data.sh "${SRCDIR}" "${APPDIR}/usr/lib/openra" "${MOD_ID}"
 	echo "${TAG}" >"${APPDIR}/usr/lib/openra/VERSION"
-	../set-mod-version.sh "${TAG}" "${APPDIR}/usr/lib/openra/mods/${MOD_ID}/mod.yaml" "${APPDIR}/usr/lib/openra/mods/modcontent/mod.yaml"
+	../shared/set-mod-version.sh "${TAG}" "${APPDIR}/usr/lib/openra/mods/${MOD_ID}/mod.yaml" "${APPDIR}/usr/lib/openra/mods/modcontent/mod.yaml"
 
 	# Add launcher and icons
 	sed "s/{MODID}/${MOD_ID}/g" AppRun.in | sed "s/{MODNAME}/${DISPLAY_NAME}/g" >"${APPDIR}/AppRun"

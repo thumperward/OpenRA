@@ -98,15 +98,15 @@ else
 	@$(DOTNET) build -c ${CONFIGURATION} -nologo -p:TargetPlatform=$(TARGETPLATFORM)
 endif
 ifeq ($(TARGETPLATFORM), unix-generic)
-	@sh -c ./packaging/configure-system-libraries.sh
+	@sh -c ./packaging/shared/configure-system-libraries.sh
 endif
-	@sh -c ./packaging/fetch-geoip.sh
+	@sh -c ./packaging/shared/fetch-geoip.sh
 
 # dotnet clean and msbuild -t:Clean leave files that cause problems when switching between mono/dotnet
 # Deleting the intermediate / output directories ensures the build directory is actually clean
 clean:
 	@-$(RM_RF) ./src/bin ./src/*/obj ./build ./packaging/*/build
-	@-$(RM_F) ./packaging/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
+	@-$(RM_F) ./res/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
 
 check:
 	@echo
@@ -118,14 +118,14 @@ else
 	@$(DOTNET) build -c Debug -nologo -warnaserror -p:TargetPlatform=$(TARGETPLATFORM)
 endif
 ifeq ($(TARGETPLATFORM), unix-generic)
-	@sh -c ./packaging/configure-system-libraries.sh
+	@sh -c ./packaging/shared/configure-system-libraries.sh
 endif
 	@echo
 	@echo "Checking for explicit interface violations..."
-	@sh -c ./packaging/utility.sh all --check-explicit-interfaces
+	@sh -c ./packaging/shared/utility.sh all --check-explicit-interfaces
 	@echo
 	@echo "Checking for incorrect conditional trait interface overrides..."
-	@sh -c ./packaging/utility.sh all --check-conditional-trait-interface-overrides
+	@sh -c ./packaging/shared/utility.sh all --check-conditional-trait-interface-overrides
 
 check-scripts:
 	@echo
@@ -135,16 +135,16 @@ check-scripts:
 test: all
 	@echo
 	@echo "Testing Tiberian Sun mod MiniYAML..."
-	@sh -c ./packaging/utility.sh ts --check-yaml
+	@sh -c ./packaging/shared/utility.sh ts --check-yaml
 	@echo
 	@echo "Testing Dune 2000 mod MiniYAML..."
-	@sh -c ./packaging/utility.sh d2k --check-yaml
+	@sh -c ./packaging/shared/utility.sh d2k --check-yaml
 	@echo
 	@echo "Testing Tiberian Dawn mod MiniYAML..."
-	@sh -c ./packaging/utility.sh cnc --check-yaml
+	@sh -c ./packaging/shared/utility.sh cnc --check-yaml
 	@echo
 	@echo "Testing Red Alert mod MiniYAML..."
-	@sh -c ./packaging/utility.sh ra --check-yaml
+	@sh -c ./packaging/shared/utility.sh ra --check-yaml
 
 tests:
 	@dotnet build OpenRA.Test/OpenRA.Test.csproj -c Debug --nologo -p:TargetPlatform=$(TARGETPLATFORM)
@@ -158,11 +158,11 @@ ifeq ($(VERSION),)
 	$(error Unable to determine new version (requires git or override of variable VERSION))
 endif
 	@sh -c 'echo "$(VERSION)" >"./VERSION"''
-	@sh -c ./packaging/set-mod-version.sh "$(VERSION)" mods/ra/mod.yaml mods/cnc/mod.yaml mods/d2k/mod.yaml mods/ts/mod.yaml mods/modcontent/mod.yaml mods/all/mod.yaml'
+	@sh -c ./packaging/shared/set-mod-version.sh "$(VERSION)" mods/ra/mod.yaml mods/cnc/mod.yaml mods/d2k/mod.yaml mods/ts/mod.yaml mods/modcontent/mod.yaml mods/all/mod.yaml'
 
 install:
-	@sh -c ./packaging/install-assemblies.sh $(CWD) $(DESTDIR)$(gameinstalldir) $(TARGETPLATFORM) $(RUNTIME) True True True'
-	@sh -c ./packaging/install-data.sh $(CWD) $(DESTDIR)$(gameinstalldir) cnc d2k ra'
+	@sh -c ./packaging/shared/install-assemblies.sh $(CWD) $(DESTDIR)$(gameinstalldir) $(TARGETPLATFORM) $(RUNTIME) True True True'
+	@sh -c ./packaging/shared/install-data.sh $(CWD) $(DESTDIR)$(gameinstalldir) cnc d2k ra'
 
 install-linux-shortcuts:
 	@sh -c '. ./packaging/linux/install-shortcuts.sh $(CWD) "$(DESTDIR)" "$(gameinstalldir)" "$(bindir)" "$(datadir)" "$(shell head -n1 VERSION)" cnc d2k ra'
@@ -172,7 +172,7 @@ install-linux-appdata:
 
 install-man: all
 	@mkdir -p $(DESTDIR)$(mandir)/man6/
-	@sh -c ./packaging/utility.sh all --man-page > $(DESTDIR)$(mandir)/man6/openra.6
+	@sh -c ./packaging/shared/utility.sh all --man-page > $(DESTDIR)$(mandir)/man6/openra.6
 
 help:
 	@echo 'to compile, run:'

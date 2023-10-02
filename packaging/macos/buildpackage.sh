@@ -35,13 +35,13 @@ function build_macos_app() {
 		IS_D2K="True"
 	fi
 
-	../install-assemblies.sh "${SRCDIR}" "${LAUNCHER_CONTENTS_DIR}/MacOS/x86_64" "osx-x64" "net6" "True" "True" "${IS_D2K}"
-	../install-assemblies.sh "${SRCDIR}" "${LAUNCHER_CONTENTS_DIR}/MacOS/arm64" "osx-arm64" "net6" "True" "True" "${IS_D2K}"
-	../install-assemblies.sh "${SRCDIR}" "${LAUNCHER_CONTENTS_DIR}/MacOS/mono" "osx-x64" "mono" "True" "True" "${IS_D2K}"
+	../shared/install-assemblies.sh "${SRCDIR}" "${LAUNCHER_CONTENTS_DIR}/MacOS/x86_64" "osx-x64" "net6" "True" "True" "${IS_D2K}"
+	../shared/install-assemblies.sh "${SRCDIR}" "${LAUNCHER_CONTENTS_DIR}/MacOS/arm64" "osx-arm64" "net6" "True" "True" "${IS_D2K}"
+	../shared/install-assemblies.sh "${SRCDIR}" "${LAUNCHER_CONTENTS_DIR}/MacOS/mono" "osx-x64" "mono" "True" "True" "${IS_D2K}"
 
-	../install-data.sh "${SRCDIR}" "${LAUNCHER_RESOURCES_DIR}" "${MOD_ID}"
+	../shared/install-data.sh "${SRCDIR}" "${LAUNCHER_RESOURCES_DIR}" "${MOD_ID}"
 	echo "${TAG}" >"${LAUNCHER_RESOURCES_DIR}/VERSION"
-	../set-mod-version.sh "${TAG}" "${LAUNCHER_RESOURCES_DIR}/mods/${MOD_ID}/mod.yaml" "${LAUNCHER_RESOURCES_DIR}/mods/modcontent/mod.yaml"
+	../shared/set-mod-version.sh "${TAG}" "${LAUNCHER_RESOURCES_DIR}/mods/${MOD_ID}/mod.yaml" "${LAUNCHER_RESOURCES_DIR}/mods/modcontent/mod.yaml"
 
 	# Assemble multi-resolution icon
 	mkdir "${MOD_ID}.iconset"

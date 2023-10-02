@@ -217,8 +217,8 @@ Function ${UN}Clean
 	Delete $INSTDIR\VERSION
 	Delete $INSTDIR\AUTHORS
 	Delete $INSTDIR\COPYING
-	Delete "$INSTDIR\packaging\global mix database.dat"
-	Delete $INSTDIR\packaging\IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
+	Delete "$INSTDIR\global mix database.dat"
+	Delete $INSTDIR\IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
 
 	RMDir /r $INSTDIR\Support
 

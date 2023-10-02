@@ -5,15 +5,15 @@ function build() {
 	echo "Building binaries (${ARCH})..."
 
 	# Set parameter 5 to False to disable generation of OpenRA.exe
-	../install-assemblies.sh "${SRCDIR}" "${BUILTDIR}" "win-${ARCH}" "net6" "True" "True" "True"
+	../shared/install-assemblies.sh "${SRCDIR}" "${BUILTDIR}" "win-${ARCH}" "net6" "True" "True" "True"
 	echo "${TAG}" >"${BUILTDIR}/VERSION"
 }
 
 function configure_mods() {
 	echo "Configuring mods (${ARCH})..."
 
-	../install-data.sh "${SRCDIR}" "${BUILTDIR}" "cnc" "d2k" "ra"
-	../set-mod-version.sh "${TAG}" \
+	../shared/install-data.sh "${SRCDIR}" "${BUILTDIR}" "cnc" "d2k" "ra"
+	../shared/set-mod-version.sh "${TAG}" \
 		"${BUILTDIR}/mods/cnc/mod.yaml" \
 		"${BUILTDIR}/mods/d2k/mod.yaml" \
 		"${BUILTDIR}/mods/ra/mod.yaml" \

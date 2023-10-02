@@ -31,7 +31,7 @@ if [ "${RUNTIME}" = "mono" ]; then
     -p:Configuration=Release -p:TargetPlatform="${TARGETPLATFORM}"
 
   if [ "${TARGETPLATFORM}" = "unix-generic" ]; then
-    ./configure-system-libraries.sh
+    ./shared/configure-system-libraries.sh
   fi
 
   if [ "${COPY_GENERIC_LAUNCHER}" != "True" ]; then
