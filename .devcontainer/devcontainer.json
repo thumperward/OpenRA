@@ -17,7 +17,8 @@
 				"idleberg.nsis",
 				"ms-vscode.cpptools-extension-pack",
 				"nico-castell.linux-desktop-file",
-				"timonwong.shellcheck"
+				"timonwong.shellcheck",
+				"bungcip.better-toml"
 			]
 		}
 	},

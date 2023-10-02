@@ -1,12 +1,6 @@
-#!/bin/sh
+#! /bin/sh
 # Patch *.dll.config files to use system libraries, working around issues with directories and naming schemes
-
-####
-# This file must stay /bin/sh and POSIX compliant for macOS and BSD portability.
-# Copy-paste the entire script into http://shellcheck.net to check.
-####
-
-set -o errexit || exit $?
+set -euo pipefail
 
 patch_config()
 {
