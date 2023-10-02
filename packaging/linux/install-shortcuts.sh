@@ -52,12 +52,12 @@ while [ -n "${1}" ]; do
     # icons
     for SIZE in 16x16 32x32 48x48 64x64 128x128; do
       install -d "${BUILD_PATH}${SHARE_PATH}/icons/hicolor/${SIZE}/apps"
-      install -m644 "${SRC_PATH}/packaging/artwork/${MOD_ID}_${SIZE}.png" "${BUILD_PATH}${SHARE_PATH}/icons/hicolor/${SIZE}/apps/openra-${MOD_ID}.png"
+      install -m644 "${SRC_PATH}/res/artwork/${MOD_ID}_${SIZE}.png" "${BUILD_PATH}${SHARE_PATH}/icons/hicolor/${SIZE}/apps/openra-${MOD_ID}.png"
     done
 
     if [ "${MOD_ID}" = "ra" ] || [ "${MOD_ID}" = "cnc" ]; then
       install -d "${BUILD_PATH}${SHARE_PATH}/icons/hicolor/scalable/apps"
-      install -m644 "${SRC_PATH}/packaging/artwork/${MOD_ID}_scalable.svg" "${BUILD_PATH}${SHARE_PATH}/icons/hicolor/scalable/apps/openra-${MOD_ID}.svg"
+      install -m644 "${SRC_PATH}/res/artwork/${MOD_ID}_scalable.svg" "${BUILD_PATH}${SHARE_PATH}/icons/hicolor/scalable/apps/openra-${MOD_ID}.svg"
     fi
 
     # MIME info
