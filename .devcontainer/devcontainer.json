@@ -7,19 +7,21 @@
 		"vscode": {
 			"extensions": [
 				"EditorConfig.EditorConfig",
+				"foxundermoon.shell-format",
+				"GitHub.vscode-github-actions",
+				"idleberg.nsis",
 				"macabeus.vscode-fluent",
 				"ms-dotnettools.csdevkit",
 				"ms-dotnettools.csharp",
+				"ms-python.python",
+				"ms-vscode.cpptools-extension-pack",
 				"ms-vscode.makefile-tools",
 				"ms-vscode.powershell",
+				"nico-castell.linux-desktop-file",
 				"openra.oraide-vscode",
 				"openra.vscode-openra-lua",
-				"idleberg.nsis",
-				"ms-vscode.cpptools-extension-pack",
-				"nico-castell.linux-desktop-file",
-				"timonwong.shellcheck",
-				"bungcip.better-toml",
-				"foxundermoon.shell-format"
+				"tamasfe.even-better-toml",
+				"timonwong.shellcheck"
 			]
 		}
 	},

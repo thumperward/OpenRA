@@ -9,7 +9,7 @@
 import struct
 import sys
 
-print('Patching ' + sys.argv[1] + ':')
+print(f'Patching {sys.argv[1]}:')
 with open(sys.argv[1], 'r+b') as assembly:
     assembly.seek(0x3c)
     peOffset = struct.unpack('H', assembly.read(2))[0]
