@@ -20,7 +20,7 @@ function build_linux_appimage() {
 	MOD_ID=${1}
 	DISPLAY_NAME=${2}
 	DISCORD_ID=${3}
-	APPDIR="$(pwd)/${MOD_ID}.appdir"
+	APPDIR="$(pwd)/${MOD_ID}/build/.appdir"
 	APPIMAGE="OpenRA-${DISPLAY_NAME// /-})${SUFFIX}-x86_64.AppImage"
 
 	IS_D2K="False"
@@ -73,7 +73,7 @@ function build_linux_appimage() {
 
 	mkdir -p "${OUTPUTDIR}"
 	# Embed update metadata if (and only if) compiled on GitHub Actions
-	if [ -n "${GITHUB_REPOSITORY}" ]; then
+	if [ -n "${GITHUB_REPOSITORY:-}" ]; then
 		ARCH=x86_64 appimagetool-x86_64.AppImage --no-appstream -u "zsync|https://master.openra.net/appimagecheck.zsync?mod=${MOD_ID}&channel=${UPDATE_CHANNEL}" "${APPDIR}" "${OUTPUTDIR}/${APPIMAGE}"
 		zsyncmake -u "https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}/${APPIMAGE}" -o "${OUTPUTDIR}/${APPIMAGE}.zsync" "${OUTPUTDIR}/${APPIMAGE}"
 	else
@@ -83,16 +83,11 @@ function build_linux_appimage() {
 	rm -rf "${APPDIR}"
 }
 
-if [ $# -ne "2" ]; then
-	echo "Usage: $(basename "$0") tag outputdir"
-	exit 1
-fi
-
 cd "$(dirname "$0")"
 
-TAG="$1"
-OUTPUTDIR="$2"
+TAG="${1:-$(git tag | tail -1)}" # Tag to release
 SRCDIR="$(pwd)/../.."
+OUTPUTDIR="${SRCDIR}/build/linux" # Path to the final asset destination
 
 ARTWORK_DIR="${SRCDIR}/res/artwork"
 if [[ ${TAG} == release* ]]; then
