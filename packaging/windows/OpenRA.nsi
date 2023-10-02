@@ -134,8 +134,8 @@ Section "Game" GAME
 	File "${SRCDIR}\*.ico"
 	File "${SRCDIR}\*.deps.json"
 	File "${SRCDIR}\*.runtimeconfig.json"
-	File "${SRCDIR}\global mix database.dat"
-	File "${SRCDIR}\IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP"
+	File "${SRCDIR}\packaging\global mix database.dat"
+	File "${SRCDIR}\packaging\IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP"
 	File "${SRCDIR}\VERSION"
 	File "${SRCDIR}\AUTHORS"
 	File "${SRCDIR}\COPYING"
@@ -217,8 +217,8 @@ Function ${UN}Clean
 	Delete $INSTDIR\VERSION
 	Delete $INSTDIR\AUTHORS
 	Delete $INSTDIR\COPYING
-	Delete "$INSTDIR\global mix database.dat"
-	Delete $INSTDIR\IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
+	Delete "$INSTDIR\packaging\global mix database.dat"
+	Delete $INSTDIR\packaging\IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
 
 	RMDir /r $INSTDIR\Support
 

@@ -18,10 +18,10 @@ SRC_PATH="${1}"
 DEST_PATH="${2}"
 shift 2
 
-"${SRC_PATH}/fetch-geoip.sh"
+"${SRC_PATH}/packaging/fetch-geoip.sh"
 
 echo "Installing engine files to ${DEST_PATH}"
-for FILE in VERSION AUTHORS COPYING IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP "global mix database.dat"; do
+for FILE in VERSION AUTHORS COPYING packaging/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP "packaging/global mix database.dat"; do
 	install -m644 "${SRC_PATH}/${FILE}" "${DEST_PATH}"
 done
 

@@ -22,10 +22,10 @@ function All-Command
 		Write-Host "Build succeeded." -ForegroundColor Green
 	}
 
-	if (!(Test-Path "IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP") -Or (((get-date) - (get-item "IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP").LastWriteTime) -gt (new-timespan -days 30)))
+	if (!(Test-Path "./packaging/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP") -Or (((get-date) - (get-item "./packaging/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP").LastWriteTime) -gt (new-timespan -days 30)))
 	{
-		echo "Downloading IP2Location GeoIP database."
-		$target = Join-Path $pwd.ToString() "IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP"
+		Write-Output "Downloading IP2Location GeoIP database."
+		$target = Join-Path $pwd.ToString() "./packaging/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP"
 		[Net.ServicePointManager]::SecurityProtocol = 'Tls12'
 		(New-Object System.Net.WebClient).DownloadFile("https://github.com/OpenRA/GeoIP-Database/releases/download/monthly/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP", $target)
 	}
@@ -56,7 +56,7 @@ function Version-Command
 		if ($gitRepo)
 		{
 			$version = git name-rev --name-only --tags --no-undefined HEAD 2>$null
-			if ($version -eq $null)
+			if ($null -eq $version)
 			{
 				$version = "git-" + (git rev-parse --short HEAD)
 			}
@@ -71,21 +71,21 @@ function Version-Command
 		Write-Host "Unable to locate Git. The version will remain unchanged." -ForegroundColor Red
 	}
 
-	if ($version -ne $null)
+	if ($null -ne $version)
 	{
 		$version | out-file ".\VERSION"
 		$mods = @("mods/ra/mod.yaml", "mods/cnc/mod.yaml", "mods/d2k/mod.yaml", "mods/ts/mod.yaml", "mods/modcontent/mod.yaml", "mods/all/mod.yaml")
 		foreach ($mod in $mods)
 		{
-			$replacement = (gc $mod) -Replace "Version:.*", ("Version: {0}" -f $version)
+			$replacement = (Get-Content $mod) -Replace "Version:.*", ("Version: {0}" -f $version)
 			sc $mod $replacement
 
-			$prefix = $(gc $mod) | Where { $_.ToString().EndsWith(": User") }
+			$prefix = $(Get-Content $mod) | Where-Object { $_.ToString().EndsWith(": User") }
 			if ($prefix -and $prefix.LastIndexOf("/") -ne -1)
 			{
 				$prefix = $prefix.Substring(0, $prefix.LastIndexOf("/"))
 			}
-			$replacement = (gc $mod) -Replace ".*: User", ("{0}/{1}: User" -f $prefix, $version)
+			$replacement = (Get-Content $mod) -Replace ".*: User", ("{0}/{1}: User" -f $prefix, $version)
 			sc $mod $replacement
 		}
 		Write-Host ("Version strings set to '{0}'." -f $version)
@@ -141,7 +141,7 @@ function Check-Command
 
 function Check-Scripts-Command
 {
-	if ((Get-Command "luac.exe" -ErrorAction SilentlyContinue) -ne $null)
+	if ($null -ne (Get-Command "luac.exe" -ErrorAction SilentlyContinue))
 	{
 		Write-Host "Testing Lua scripts..." -ForegroundColor Cyan
 		foreach ($script in ls "mods/*/maps/*/*.lua")
@@ -173,7 +173,7 @@ function CheckForUtility
 
 function CheckForDotnet
 {
-	if ((Get-Command "dotnet" -ErrorAction SilentlyContinue) -eq $null)
+	if ($null -eq (Get-Command "dotnet" -ErrorAction SilentlyContinue))
 	{
 		Write-Host "The 'dotnet' tool is required to compile OpenRA. Please install the .NET Core SDK or Visual Studio and try again. https://dotnet.microsoft.com/download" -ForegroundColor Red
 		return 1

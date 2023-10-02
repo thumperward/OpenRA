@@ -1,5 +1,9 @@
 # TODO
 
+```sh
+packaging/windows/buildpackage.sh $(git tag | tail -1) $(pwd)/build/windows
+```
+
 ## Overall
 
 -   Totally reorganise build system so that it works the same way on all
@@ -13,6 +17,7 @@
 -   Verify that all builds still work
 -   Investigate a generic cross-platform build process
 -   Pre-commit
+-   Stop fetching anything at build time (kills reproduceability)
 
 ## Windows
 

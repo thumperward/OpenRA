@@ -98,15 +98,15 @@ else
 	@$(DOTNET) build -c ${CONFIGURATION} -nologo -p:TargetPlatform=$(TARGETPLATFORM)
 endif
 ifeq ($(TARGETPLATFORM), unix-generic)
-	@./configure-system-libraries.sh
+	@sh -c './packaging/configure-system-libraries.sh
 endif
-	@./fetch-geoip.sh
+	@sh -c './packaging/fetch-geoip.sh
 
 # dotnet clean and msbuild -t:Clean leave files that cause problems when switching between mono/dotnet
 # Deleting the intermediate / output directories ensures the build directory is actually clean
 clean:
 	@-$(RM_RF) ./bin ./*/obj ./build
-	@-$(RM_F) IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
+	@-$(RM_F) ./packaging/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
 
 check:
 	@echo
@@ -118,14 +118,14 @@ else
 	@$(DOTNET) build -c Debug -nologo -warnaserror -p:TargetPlatform=$(TARGETPLATFORM)
 endif
 ifeq ($(TARGETPLATFORM), unix-generic)
-	@./configure-system-libraries.sh
+	@sh -c './packaging/configure-system-libraries.sh
 endif
 	@echo
 	@echo "Checking for explicit interface violations..."
-	@./utility.sh all --check-explicit-interfaces
+	@sh -c './packaging/utility.sh all --check-explicit-interfaces
 	@echo
 	@echo "Checking for incorrect conditional trait interface overrides..."
-	@./utility.sh all --check-conditional-trait-interface-overrides
+	@sh -c './packaging/utility.sh all --check-conditional-trait-interface-overrides
 
 check-scripts:
 	@echo
@@ -135,16 +135,16 @@ check-scripts:
 test: all
 	@echo
 	@echo "Testing Tiberian Sun mod MiniYAML..."
-	@./utility.sh ts --check-yaml
+	@sh -c './packaging/utility.sh ts --check-yaml
 	@echo
 	@echo "Testing Dune 2000 mod MiniYAML..."
-	@./utility.sh d2k --check-yaml
+	@sh -c './packaging/utility.sh d2k --check-yaml
 	@echo
 	@echo "Testing Tiberian Dawn mod MiniYAML..."
-	@./utility.sh cnc --check-yaml
+	@sh -c './packaging/utility.sh cnc --check-yaml
 	@echo
 	@echo "Testing Red Alert mod MiniYAML..."
-	@./utility.sh ra --check-yaml
+	@sh -c './packaging/utility.sh ra --check-yaml
 
 tests:
 	@dotnet build OpenRA.Test/OpenRA.Test.csproj -c Debug --nologo -p:TargetPlatform=$(TARGETPLATFORM)
@@ -172,7 +172,7 @@ install-linux-appdata:
 
 install-man: all
 	@mkdir -p $(DESTDIR)$(mandir)/man6/
-	@./utility.sh all --man-page > $(DESTDIR)$(mandir)/man6/openra.6
+	@sh -c './packaging/utility.sh all --man-page > $(DESTDIR)$(mandir)/man6/openra.6
 
 help:
 	@echo 'to compile, run:'
