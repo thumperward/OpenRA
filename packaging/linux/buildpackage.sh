@@ -94,7 +94,7 @@ TAG="$1"
 OUTPUTDIR="$2"
 SRCDIR="$(pwd)/../.."
 
-ARTWORK_DIR="$(pwd)/../artwork/"
+ARTWORK_DIR="${SRCDIR}/res/artwork"
 if [[ ${TAG} == release* ]]; then
 	UPDATE_CHANNEL="release"
 	SUFFIX=""

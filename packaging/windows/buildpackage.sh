@@ -37,7 +37,7 @@ function build_launcher() {
 	TAG_TYPE="${TAG%%-*}"
 	TAG_VERSION="${TAG#*-}"
 	BACKWARDS_TAG="${TAG_VERSION}-${TAG_TYPE}"
-	ARTWORK_DIR="$(pwd)/../artwork/"
+	ARTWORK_DIR="$(pwd)/../../res/artwork/"
 
 	echo "Building launcher for ${LAUNCHER_NAME} (${ARCH})..."
 
