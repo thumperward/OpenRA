@@ -111,26 +111,26 @@ windows_deps
 
 mkdir -p "${OUTPUTDIR}"
 for arch in x86 x64; do
-	echo "Building executables..."
+	echo "Building binaries (${arch})..."
 	build_windows $arch
 
-	echo "Building launchers..."
+	echo "Building launchers (${arch})..."
 	make_windows_launcher RedAlert ra ${arch}
 	make_windows_launcher TiberianDawn cnc ${arch}
 	make_windows_launcher Dune2000 d2k ${arch}
 
-	echo "Building installer..."
-	USE_PROGRAMFILES32=$([ "${arch}" == "x86" ] && echo "-DUSE_PROGRAMFILES32=true" || echo "")
-	echo makensis -V2 -DSRCDIR="${BUILTDIR}" -DTAG="${TAG}" -DSUFFIX="${SUFFIX}" -DOUTFILE="${OUTPUTDIR}/OpenRA-${TAG}-${arch}.exe" "${USE_PROGRAMFILES32}" OpenRA.nsi
+	echo "Building installer (${arch})..."
+	pf32=$([ "${arch}" == "x86" ] && echo "true" || echo "false")
+	makensis -V2 -DSRCDIR="${BUILTDIR}" -DTAG="${TAG}" -DSUFFIX="${SUFFIX}" -DOUTFILE="${OUTPUTDIR}/OpenRA-${TAG}-${arch}.exe" -DUSE_PROGRAMFILES32="${pf32}" OpenRA.nsi
 
-	echo "Creating archive..."
+	echo "Creating archive (${arch})..."
 	(
 		cd "${BUILTDIR}"
 		zip "OpenRA-${TAG}-${arch}-winportable.zip" -r -9 ./* --quiet
 		mv "OpenRA-${TAG}-${arch}-winportable.zip" "${OUTPUTDIR}"
 	)
 
-	echo "Cleaning up..."
+	echo "Cleaning up (${arch})..."
 	rm -rf "${BUILTDIR}"
 done
 
