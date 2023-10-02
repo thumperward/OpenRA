@@ -58,3 +58,5 @@ update.log
 # Temporary packaging directories
 build/windows/
 packaging/windows_cross/build/
+packaging/linux/ra/
+packaging/linux/ra.appdir/
