@@ -1,8 +1,12 @@
 #! /bin/bash
 set -euo pipefail
 
-targets=$([[ "$OSTYPE" == "darwin*" ]] && echo "macos" || echo "windows_cross linux source")
+cd "$(dirname "$0")"
+TAG="${1:-$(git tag | tail -1)}" # Tag to release
 
+targets=$([[ "$OSTYPE" == "darwin*" ]] && echo "macos" || echo "windows_cross linux source")
 for target in $targets; do
-  ("$(dirname "$0")/$target/buildpackage.sh" "$1" "$2")
+  echo "Building ${target}..."
+
+  "./$target/buildpackage.sh" "$TAG"
 done

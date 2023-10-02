@@ -1,15 +1,10 @@
 #! /bin/bash
 set -euo pipefail
 
-if [ $# -ne "2" ]; then
-	echo "Usage: $(basename "$0") tag outputdir"
-	exit 1
-fi
-
 cd "$(dirname "$0")"
 
-TAG="$1"
-OUTPUTDIR="$2"
+TAG="${1:-$(git tag | tail -1)}"    # Tag to release
+OUTPUTDIR="${SRCDIR}/build/windows" # Path to the final asset destination
 SRCDIR="$(pwd)/../.."
 
 (
