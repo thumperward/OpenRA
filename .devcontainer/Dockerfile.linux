@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   nsis \
   imagemagick \
   wine64 \
-  dotnet-sdk-6.0
+  dotnet-sdk-6.0 \
+  shellcheck
 
 # # Install updated packages from backports.
 # RUN apt-get update && sudo apt-get install -y --no-install-recommends \
