@@ -6,7 +6,7 @@
 #  Read the file to see which settings you can override
 set -euo pipefail
 
-ENGINEDIR=$(dirname "$0")/../src/bin
+ENGINEDIR=$(dirname "$0")/../packaging/windows/build
 if command -v mono >/dev/null 2>&1 && [ "$(grep -c .NETCoreApp,Version= "${ENGINEDIR}/OpenRA.Server.dll")" = "0" ]; then
      RUNTIME_LAUNCHER="mono --debug"
 else
@@ -36,7 +36,7 @@ FloodLimitJoinCooldown="${FloodLimitJoinCooldown:-"5000"}"
 SupportDir="${SupportDir:-""}"
 
 while true; do
-     ${RUNTIME_LAUNCHER} "${ENGINEDIR}/OpenRA.Server.dll" Engine.EngineDir=".." Game.Mod="$Mod" \
+     ${RUNTIME_LAUNCHER} "${ENGINEDIR}/OpenRA.Server.dll" Game.Mod="$Mod" \
           Server.Name="$Name" \
           Server.Map="$Map" \
           Server.ListenPort="$ListenPort" \
