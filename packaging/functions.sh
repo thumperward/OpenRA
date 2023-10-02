@@ -1,32 +1,25 @@
 #!/bin/sh
 # Helper functions for packaging and installing OpenRA
-
-####
-# This file must stay /bin/sh and POSIX compliant for macOS and BSD portability.
-# Copy-paste the entire script into http://shellcheck.net to check.
-####
-
-# Compile and publish the core engine and specified mod assemblies to the target directory
-# Arguments:
-#   SRC_PATH: Path to the root OpenRA directory
-#   DEST_PATH: Path to the root of the install destination (will be created if necessary)
-#   TARGETPLATFORM: Platform type (win-x86, win-x64, osx-x64, osx-arm64, linux-x64, linux-arm64, unix-generic)
-#   RUNTIME: Runtime type (net6, mono)
-#   COPY_GENERIC_LAUNCHER: If set to True the OpenRA.exe will also be copied (True, False)
-#   COPY_CNC_DLL: If set to True the OpenRA.Mods.Cnc.dll will also be copied (True, False)
-#   COPY_D2K_DLL: If set to True the OpenRA.Mods.D2k.dll will also be copied (True, False)
-# Used by:
-#   Makefile (install target for local installs and downstream packaging)
-#   Windows packaging
-#   macOS packaging
-#   Linux AppImage packaging
-#   Mod SDK Windows packaging
-#   Mod SDK macOS packaging
-#   Mod SDK Linux AppImage packaging
-
 set -euo pipefail
 
-install_assemblies() (
+function install_assemblies() (
+	# Compile and publish the core engine and specified mod assemblies to the target directory
+	# Arguments:
+	#   SRC_PATH: Path to the root OpenRA directory
+	#   DEST_PATH: Path to the root of the install destination (will be created if necessary)
+	#   TARGETPLATFORM: Platform type (win-x86, win-x64, osx-x64, osx-arm64, linux-x64, linux-arm64, unix-generic)
+	#   RUNTIME: Runtime type (net6, mono)
+	#   COPY_GENERIC_LAUNCHER: If set to True the OpenRA.exe will also be copied (True, False)
+	#   COPY_CNC_DLL: If set to True the OpenRA.Mods.Cnc.dll will also be copied (True, False)
+	#   COPY_D2K_DLL: If set to True the OpenRA.Mods.D2k.dll will also be copied (True, False)
+	# Used by:
+	#   Makefile (install target for local installs and downstream packaging)
+	#   Windows packaging
+	#   macOS packaging
+	#   Linux AppImage packaging
+	#   Mod SDK Windows packaging
+	#   Mod SDK macOS packaging
+	#   Mod SDK Linux AppImage packaging
 	SRC_PATH="${1}"
 	DEST_PATH="${2}"
 	TARGETPLATFORM="${3}"
@@ -86,20 +79,21 @@ install_assemblies() (
 	cd "${ORIG_PWD}"
 )
 
-# Copy the core engine and specified mod data to the target directory
-# Arguments:
-#   SRC_PATH: Path to the root OpenRA directory
-#   DEST_PATH: Path to the root of the install destination (will be created if necessary)
-#   MOD [MOD...]: One or more mod ids to copy (cnc, d2k, ra)
-# Used by:
-#   Makefile (install target for local installs and downstream packaging)
-#   Linux AppImage packaging
-#   macOS packaging
-#   Windows packaging
-#   Mod SDK Linux AppImage packaging
-#   Mod SDK macOS packaging
-#   Mod SDK Windows packaging
-install_data() (
+function install_data() (
+	# Copy the core engine and specified mod data to the target directory
+	# Arguments:
+	#   SRC_PATH: Path to the root OpenRA directory
+	#   DEST_PATH: Path to the root of the install destination (will be created if necessary)
+	#   MOD [MOD...]: One or more mod ids to copy (cnc, d2k, ra)
+	# Used by:
+	#   Makefile (install target for local installs and downstream packaging)
+	#   Linux AppImage packaging
+	#   macOS packaging
+	#   Windows packaging
+	#   Mod SDK Linux AppImage packaging
+	#   Mod SDK macOS packaging
+	#   Mod SDK Windows packaging
+
 	SRC_PATH="${1}"
 	DEST_PATH="${2}"
 	shift 2
@@ -129,20 +123,20 @@ install_data() (
 	done
 )
 
-# Compile and publish (using Mono) a windows launcher with the specified mod details to the target directory
-# Arguments:
-#   SRC_PATH: Path to the root OpenRA directory
-#   DEST_PATH: Path to the root of the install destination (will be created if necessary)
-#   TARGETPLATFORM: Platform type (win-x86, win-x64)
-#   MOD_ID: Mod id to launch (e.g. "ra")
-#   LAUNCHER_NAME: Filename (without the .exe extension) for the launcher
-#   MOD_NAME: Human-readable mod name to show in the crash dialog (e.g. "Red Alert")
-#   ICON_PATH: Path to a windows .ico file
-#   FAQ_URL: URL to load when the "View FAQ" button is pressed in the crash dialog (e.g. https://wiki.openra.net/FAQ)
-# Used by:
-#   Windows packaging
-#   Mod SDK Windows packaging
 install_windows_launcher() (
+	# Compile and publish (using Mono) a windows launcher with the specified mod details to the target directory
+	# Arguments:
+	#   SRC_PATH: Path to the root OpenRA directory
+	#   DEST_PATH: Path to the root of the install destination (will be created if necessary)
+	#   TARGETPLATFORM: Platform type (win-x86, win-x64)
+	#   MOD_ID: Mod id to launch (e.g. "ra")
+	#   LAUNCHER_NAME: Filename (without the .exe extension) for the launcher
+	#   MOD_NAME: Human-readable mod name to show in the crash dialog (e.g. "Red Alert")
+	#   ICON_PATH: Path to a windows .ico file
+	#   FAQ_URL: URL to load when the "View FAQ" button is pressed in the crash dialog (e.g. https://wiki.openra.net/FAQ)
+	# Used by:
+	#   Windows packaging
+	#   Mod SDK Windows packaging
 	SRC_PATH="${1}"
 	DEST_PATH="${2}"
 	TARGETPLATFORM="${3}"
@@ -167,37 +161,37 @@ install_windows_launcher() (
 	python3 "${SRC_PATH}/packaging/windows/fixlauncher.py" "${DEST_PATH}/${LAUNCHER_NAME}.exe"
 )
 
-# Write a version string to the engine VERSION file
-# Arguments:
-#   VERSION: OpenRA version string
-#   DEST_PATH: Path to the root of the install destination
-# Used by:
-#   Makefile (install target for local installs and downstream packaging)
-#   Linux AppImage packaging
-#   macOS packaging
-#   Windows packaging
-#   Mod SDK Linux AppImage packaging
-#   Mod SDK macOS packaging
-#   Mod SDK Windows packaging
-set_engine_version() (
+function set_engine_version() (
+	# Write a version string to the engine VERSION file
+	# Arguments:
+	#   VERSION: OpenRA version string
+	#   DEST_PATH: Path to the root of the install destination
+	# Used by:
+	#   Makefile (install target for local installs and downstream packaging)
+	#   Linux AppImage packaging
+	#   macOS packaging
+	#   Windows packaging
+	#   Mod SDK Linux AppImage packaging
+	#   Mod SDK macOS packaging
+	#   Mod SDK Windows packaging
 	VERSION="${1}"
 	DEST_PATH="${2}"
 	echo "${VERSION}" > "${DEST_PATH}/VERSION"
 )
 
-# Write a version string to a list of specified mod.yamls
-# Arguments:
-#   VERSION: OpenRA version string
-#   MOD_YAML_PATH [MOD_YAML_PATH...]: One or more mod.yaml files to update
-# Used by:
-#   Makefile (install target for local installs and downstream packaging)
-#   Linux AppImage packaging
-#   macOS packaging
-#   Windows packaging
-#   Mod SDK Linux AppImage packaging
-#   Mod SDK macOS packaging
-#   Mod SDK Windows packaging
-set_mod_version() (
+function set_mod_version() (
+	# Write a version string to a list of specified mod.yamls
+	# Arguments:
+	#   VERSION: OpenRA version string
+	#   MOD_YAML_PATH [MOD_YAML_PATH...]: One or more mod.yaml files to update
+	# Used by:
+	#   Makefile (install target for local installs and downstream packaging)
+	#   Linux AppImage packaging
+	#   macOS packaging
+	#   Windows packaging
+	#   Mod SDK Linux AppImage packaging
+	#   Mod SDK macOS packaging
+	#   Mod SDK Windows packaging
 	VERSION="${1}"
 	shift
 	while [ -n "${1:-}" ]; do
@@ -209,18 +203,18 @@ set_mod_version() (
 	done
 )
 
-# Copy launch wrappers, application icons, desktop, and MIME files to the target directory
-# Arguments:
-#   SRC_PATH: Path to the root OpenRA directory
-#   BUILD_PATH: Path to packaging filesystem root (e.g. /tmp/openra-build/ or "" for a local install)
-#   OPENRA_PATH: Path to the OpenRA installation (e.g. /usr/local/lib/openra)
-#   BIN_PATH: Path to install wrapper scripts (e.g. /usr/local/bin)
-#   SHARE_PATH: Parent path to the icons and applications directory (e.g. /usr/local/share)
-#   VERSION: OpenRA version string
-#   MOD [MOD...]: One or more mod ids to copy (cnc, d2k, ra)
-# Used by:
-#   Makefile (install-linux-shortcuts target for local installs and downstream packaging)
-install_linux_shortcuts() (
+function install_linux_shortcuts() (
+	# Copy launch wrappers, application icons, desktop, and MIME files to the target directory
+	# Arguments:
+	#   SRC_PATH: Path to the root OpenRA directory
+	#   BUILD_PATH: Path to packaging filesystem root (e.g. /tmp/openra-build/ or "" for a local install)
+	#   OPENRA_PATH: Path to the OpenRA installation (e.g. /usr/local/lib/openra)
+	#   BIN_PATH: Path to install wrapper scripts (e.g. /usr/local/bin)
+	#   SHARE_PATH: Parent path to the icons and applications directory (e.g. /usr/local/share)
+	#   VERSION: OpenRA version string
+	#   MOD [MOD...]: One or more mod ids to copy (cnc, d2k, ra)
+	# Used by:
+	#   Makefile (install-linux-shortcuts target for local installs and downstream packaging)
 	SRC_PATH="${1}"
 	BUILD_PATH="${2}"
 	OPENRA_PATH="${3}"
@@ -280,15 +274,15 @@ install_linux_shortcuts() (
 	done
 )
 
-# Copy AppStream metadata to the target directory
-# Arguments:
-#   SRC_PATH: Path to the root OpenRA directory
-#   BUILD_PATH: Path to packaging filesystem root (e.g. /tmp/openra-build/ or "" for a local install)
-#   SHARE_PATH: Parent path to the appdata directory (e.g. /usr/local/share)
-#   MOD [MOD...]: One or more mod ids to copy (cnc, d2k, ra)
-# Used by:
-#   Makefile (install-linux-appdata target for local installs and downstream packaging)
-install_linux_appdata() (
+function install_linux_appdata() (
+	# Copy AppStream metadata to the target directory
+	# Arguments:
+	#   SRC_PATH: Path to the root OpenRA directory
+	#   BUILD_PATH: Path to packaging filesystem root (e.g. /tmp/openra-build/ or "" for a local install)
+	#   SHARE_PATH: Parent path to the appdata directory (e.g. /usr/local/share)
+	#   MOD [MOD...]: One or more mod ids to copy (cnc, d2k, ra)
+	# Used by:
+	#   Makefile (install-linux-appdata target for local installs and downstream packaging)
 	SRC_PATH="${1}"
 	BUILD_PATH="${2}"
 	SHARE_PATH="${3}"
@@ -388,15 +382,14 @@ function build_windows()
 	# makensis -V2 -DSRCDIR="${BUILTDIR}" -DTAG="${TAG}" -DSUFFIX="${SUFFIX}" -DOUTFILE="${OUTPUTDIR}/OpenRA-${TAG}-${PLATFORM}.exe" ${USE_PROGRAMFILES32} OpenRA.nsi
 
 	echo "Packaging zip archive ($1)"
-	pushd "${BUILTDIR}" > /dev/null
-	zip "OpenRA-${TAG}-${PLATFORM}-winportable.zip" -r -9 ./* --quiet
-	mkdir -p "${OUTPUTDIR}"
-	mv "OpenRA-${TAG}-${PLATFORM}-winportable.zip" "${OUTPUTDIR}"
-	popd > /dev/null
-
+	(
+		cd "${BUILTDIR}"
+		zip "OpenRA-${TAG}-${PLATFORM}-winportable.zip" -r -9 ./* --quiet
+		mkdir -p "${OUTPUTDIR}"
+		mv "OpenRA-${TAG}-${PLATFORM}-winportable.zip" "${OUTPUTDIR}"
+	)
 	rm -rf "${BUILTDIR}"
 }
-
 
 function modify_plist() {
 	sed "s|${1}|${2}|g" "${3}" > "${3}.tmp" && mv "${3}.tmp" "${3}"
@@ -479,19 +472,10 @@ function import_certificates() {
 }
 
 function linux_deps() {
-command -v tar >/dev/null 2>&1 || { echo >&2 "Linux packaging requires tar."; exit 1; }
-command -v curl >/dev/null 2>&1 || command -v wget > /dev/null 2>&1 || { echo >&2 "Linux packaging requires curl or wget."; exit 1; }
-# Add native libraries
-echo "Downloading appimagetool"
-if command -v curl >/dev/null 2>&1; then
-	curl -SLO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-else
-	wget -cq https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-fi
-
-chmod a+x appimagetool-x86_64.AppImage
+	command -v tar >/dev/null 2>&1 || { echo >&2 "Linux packaging requires tar."; exit 1; }
+	command -v curl >/dev/null 2>&1 || command -v wget > /dev/null 2>&1 || { echo >&2 "Linux packaging requires curl or wget."; exit 1; }
+	command -v appimagetool-x86_64.AppImage >/dev/null 2>&1 || { echo >&2 "Linux packaging requires appimagetool-x86_64.AppImage."; exit 1; }
 }
-
 
 function build_appimage() {
 	MOD_ID=${1}

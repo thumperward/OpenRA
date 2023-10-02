@@ -1,16 +1,8 @@
 #!/bin/sh
 # Download the IP2Location country database for use by the game server
+set -euo pipefail
 
-####
-# This file must stay /bin/sh and POSIX compliant for macOS and BSD portability.
-# Copy-paste the entire script into http://shellcheck.net to check.
-####
-
-set -o errexit || exit $?
-
-# Set the working directory to the location of this script
-HERE=$(dirname "$0")
-cd "${HERE}"
+cd $(dirname "$0")
 
 # Database does not exist or is older than 30 days.
 if [ -z "$(find . -path ./IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP -mtime -30 -print)" ]; then
