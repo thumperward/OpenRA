@@ -1,0 +1,31 @@
+# TODO
+
+## Overall
+
+-   Totally reorganise build system so that it works the same way on all
+    platforms
+-   Have proper phases for each section, which can be linked to make targets,
+    and depend on one another
+-   Don't build multiple architectures at once at the script level
+-   Unify makefiles (somehow)
+-   Clean up script litter everywhere
+-   Move the C# source into one top level directory
+-   Verify that all builds still work
+-   Investigate a generic cross-platform build process
+-   Pre-commit
+
+## Windows
+
+-   Rename to windows_cross
+-   Investigate native packaging etc as well
+-   Fix resource hacking
+
+## Linux
+
+-   Verify it works
+-   Add other packaging options
+
+## MacOS
+
+-   Verify it works
+-   Check if unsigned releases work at all
