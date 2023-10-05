@@ -1,7 +1,10 @@
 #! /bin/bash
 set -euo pipefail
 
-ENGINEDIR=$(dirname "$0")/../packaging/windows_cross/build
+ENGINEDIR=$(dirname "$0")/../src/bin
+# Copy resources to bin dir
+cp -rp "${ENGINEDIR}/../../res/glsl" "${ENGINEDIR}"
+
 if command -v mono >/dev/null 2>&1 && [ "$(grep -c .NETCoreApp,Version= "${ENGINEDIR}/OpenRA.dll")" = "0" ]; then
 	RUNTIME_LAUNCHER="mono --debug"
 else
