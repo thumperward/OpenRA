@@ -74,10 +74,10 @@ function build_linux_appimage() {
 	mkdir -p "${OUTPUTDIR}"
 	# Embed update metadata if (and only if) compiled on GitHub Actions
 	if [ -n "${GITHUB_REPOSITORY:-}" ]; then
-		ARCH=x86_64 appimagetool-x86_64.AppImage --no-appstream -u "zsync|https://master.openra.net/appimagecheck.zsync?mod=${MOD_ID}&channel=${UPDATE_CHANNEL}" "${APPDIR}" "${OUTPUTDIR}/${APPIMAGE}"
+		ARCH=x86_64 appimagetool-x86_64.AppImage --appimage-extract-and-run --no-appstream -u "zsync|https://master.openra.net/appimagecheck.zsync?mod=${MOD_ID}&channel=${UPDATE_CHANNEL}" "${APPDIR}" "${OUTPUTDIR}/${APPIMAGE}"
 		zsyncmake -u "https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}/${APPIMAGE}" -o "${OUTPUTDIR}/${APPIMAGE}.zsync" "${OUTPUTDIR}/${APPIMAGE}"
 	else
-		ARCH=x86_64 appimagetool-x86_64.AppImage --no-appstream "${APPDIR}" "${OUTPUTDIR}/${APPIMAGE}"
+		ARCH=x86_64 appimagetool-x86_64.AppImage --appimage-extract-and-run --no-appstream "${APPDIR}" "${OUTPUTDIR}/${APPIMAGE}"
 	fi
 
 	rm -rf "${APPDIR}"
