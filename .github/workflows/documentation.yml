@@ -43,14 +43,14 @@ jobs:
         env:
           GIT_TAG: ${{ github.event.inputs.tag }}
         run: |
-          ./utility.sh all --settings-docs "${GIT_TAG}" > "wiki/Settings (playtest).md"
+          ./packaging/shared/utility.sh all --settings-docs "${GIT_TAG}" > "wiki/Settings (playtest).md"
 
       - name: Update Wiki (Release)
         if: startsWith(github.event.inputs.tag, 'release-')
         env:
           GIT_TAG: ${{ github.event.inputs.tag }}
         run: |
-          ./utility.sh all --settings-docs "${GIT_TAG}" > "wiki/Settings.md"
+          ./packaging/shared/utility.sh all --settings-docs "${GIT_TAG}" > "wiki/Settings.md"
 
       - name: Push Wiki
         env:
@@ -105,20 +105,20 @@ jobs:
         env:
           GIT_TAG: ${{ github.event.inputs.tag }}
         run: |
-          ./utility.sh all --docs "${GIT_TAG}" | python3 ./packaging/format-docs.py > "docs/api/traits.md"
-          ./utility.sh all --weapon-docs "${GIT_TAG}" | python3 ./packaging/format-docs.py > "docs/api/weapons.md"
-          ./utility.sh all --sprite-sequence-docs "${GIT_TAG}" | python3 ./packaging/format-docs.py > "docs/api/sprite-sequences.md"
-          ./utility.sh all --lua-docs "${GIT_TAG}" > "docs/api/lua.md"
+          ./packaging/shared/utility.sh all --docs "${GIT_TAG}" | python3 ./packaging/shared/format-docs.py > "docs/api/traits.md"
+          ./packaging/shared/utility.sh all --weapon-docs "${GIT_TAG}" | python3 ./packaging/shared/format-docs.py > "docs/api/weapons.md"
+          ./packaging/shared/utility.sh all --sprite-sequence-docs "${GIT_TAG}" | python3 ./packaging/shared/format-docs.py > "docs/api/sprite-sequences.md"
+          ./packaging/shared/utility.sh all --lua-docs "${GIT_TAG}" > "docs/api/lua.md"
 
       - name: Update docs.openra.net (Release)
         if: startsWith(github.event.inputs.tag, 'release-')
         env:
           GIT_TAG: ${{ github.event.inputs.tag }}
         run: |
-          ./utility.sh all --docs "${GIT_TAG}" | python3 ./packaging/format-docs.py > "docs/api/traits.md"
-          ./utility.sh all --weapon-docs "${GIT_TAG}" | python3 ./packaging/format-docs.py > "docs/api/weapons.md"
-          ./utility.sh all --sprite-sequence-docs "${GIT_TAG}" | python3 ./packaging/format-docs.py > "docs/api/sprite-sequences.md"
-          ./utility.sh all --lua-docs "${GIT_TAG}" > "docs/api/lua.md"
+          ./packaging/shared/utility.sh all --docs "${GIT_TAG}" | python3 ./packaging/shared/format-docs.py > "docs/api/traits.md"
+          ./packaging/shared/utility.sh all --weapon-docs "${GIT_TAG}" | python3 ./packaging/shared/format-docs.py > "docs/api/weapons.md"
+          ./packaging/shared/utility.sh all --sprite-sequence-docs "${GIT_TAG}" | python3 ./packaging/shared/format-docs.py > "docs/api/sprite-sequences.md"
+          ./packaging/shared/utility.sh all --lua-docs "${GIT_TAG}" > "docs/api/lua.md"
 
       - name: Commit docs.openra.net
         env:

@@ -17,7 +17,7 @@ _ReSharper.*/
 /.vscode/settings.json
 
 # binaries
-IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
+res/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
 
 # backup files by various editors
 *~
@@ -54,3 +54,13 @@ update.log
 
 # IntelliJ files
 .idea
+
+# Temporary packaging directories
+build/
+packaging/windows_cross/build/
+packaging/linux/ra/
+packaging/linux/ra.appdir/
+packaging/linux/cnc/
+packaging/linux/cnc.appdir/
+packaging/linux/d2k/
+packaging/linux/d2k.appdir/

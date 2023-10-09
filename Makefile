@@ -98,15 +98,15 @@ else
 	@$(DOTNET) build -c ${CONFIGURATION} -nologo -p:TargetPlatform=$(TARGETPLATFORM)
 endif
 ifeq ($(TARGETPLATFORM), unix-generic)
-	@./configure-system-libraries.sh
+	@sh -c './packaging/shared/configure-system-libraries.sh'
 endif
-	@./fetch-geoip.sh
+	@sh -c './packaging/shared/fetch-geoip.sh'
 
 # dotnet clean and msbuild -t:Clean leave files that cause problems when switching between mono/dotnet
 # Deleting the intermediate / output directories ensures the build directory is actually clean
 clean:
-	@-$(RM_RF) ./bin ./*/obj
-	@-$(RM_F) IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
+	@-$(RM_RF) ./src/bin ./src/*/obj ./build ./packaging/*/build
+	@-$(RM_F) ./res/IP2LOCATION-LITE-DB1.IPV6.BIN.ZIP
 
 check:
 	@echo
@@ -118,14 +118,14 @@ else
 	@$(DOTNET) build -c Debug -nologo -warnaserror -p:TargetPlatform=$(TARGETPLATFORM)
 endif
 ifeq ($(TARGETPLATFORM), unix-generic)
-	@./configure-system-libraries.sh
+	@sh -c './packaging/shared/configure-system-libraries.sh'
 endif
 	@echo
 	@echo "Checking for explicit interface violations..."
-	@./utility.sh all --check-explicit-interfaces
+	@sh -c './packaging/shared/utility.sh all --check-explicit-interfaces'
 	@echo
 	@echo "Checking for incorrect conditional trait interface overrides..."
-	@./utility.sh all --check-conditional-trait-interface-overrides
+	@sh -c './packaging/shared/utility.sh all --check-conditional-trait-interface-overrides'
 
 check-scripts:
 	@echo
@@ -135,16 +135,16 @@ check-scripts:
 test: all
 	@echo
 	@echo "Testing Tiberian Sun mod MiniYAML..."
-	@./utility.sh ts --check-yaml
+	@sh -c './packaging/shared/utility.sh ts --check-yaml'
 	@echo
 	@echo "Testing Dune 2000 mod MiniYAML..."
-	@./utility.sh d2k --check-yaml
+	@sh -c './packaging/shared/utility.sh d2k --check-yaml'
 	@echo
 	@echo "Testing Tiberian Dawn mod MiniYAML..."
-	@./utility.sh cnc --check-yaml
+	@sh -c './packaging/shared/utility.sh cnc --check-yaml'
 	@echo
 	@echo "Testing Red Alert mod MiniYAML..."
-	@./utility.sh ra --check-yaml
+	@sh -c './packaging/shared/utility.sh ra --check-yaml'
 
 tests:
 	@dotnet build OpenRA.Test/OpenRA.Test.csproj -c Debug --nologo -p:TargetPlatform=$(TARGETPLATFORM)
@@ -157,22 +157,22 @@ version: VERSION mods/ra/mod.yaml mods/cnc/mod.yaml mods/d2k/mod.yaml mods/ts/mo
 ifeq ($(VERSION),)
 	$(error Unable to determine new version (requires git or override of variable VERSION))
 endif
-	@sh -c '. ./packaging/functions.sh; set_engine_version "$(VERSION)" .'
-	@sh -c '. ./packaging/functions.sh; set_mod_version "$(VERSION)" mods/ra/mod.yaml mods/cnc/mod.yaml mods/d2k/mod.yaml mods/ts/mod.yaml mods/modcontent/mod.yaml mods/all/mod.yaml'
+	@sh -c 'echo "$(VERSION)" >"./VERSION"''
+	@sh -c ./packaging/shared/set-mod-version.sh "$(VERSION)" mods/ra/mod.yaml mods/cnc/mod.yaml mods/d2k/mod.yaml mods/ts/mod.yaml mods/modcontent/mod.yaml mods/all/mod.yaml'
 
 install:
-	@sh -c '. ./packaging/functions.sh; install_assemblies $(CWD) $(DESTDIR)$(gameinstalldir) $(TARGETPLATFORM) $(RUNTIME) True True True'
-	@sh -c '. ./packaging/functions.sh; install_data $(CWD) $(DESTDIR)$(gameinstalldir) cnc d2k ra'
+	@sh -c './packaging/shared/install-assemblies.sh $(CWD) "$(DESTDIR)" "$(gameinstalldir)" $(TARGETPLATFORM) $(RUNTIME) True True True'
+	@sh -c './packaging/shared/install-data.sh $(CWD) "$(DESTDIR)" "$(gameinstalldir)" cnc d2k ra'
 
 install-linux-shortcuts:
-	@sh -c '. ./packaging/functions.sh; install_linux_shortcuts $(CWD) "$(DESTDIR)" "$(gameinstalldir)" "$(bindir)" "$(datadir)" "$(shell head -n1 VERSION)" cnc d2k ra'
+	@sh -c '. ./packaging/linux/install-shortcuts.sh $(CWD) "$(DESTDIR)" "$(gameinstalldir)" "$(bindir)" "$(datadir)" "$(shell head -n1 VERSION)" cnc d2k ra'
 
 install-linux-appdata:
-	@sh -c '. ./packaging/functions.sh; install_linux_appdata $(CWD) "$(DESTDIR)" "$(datadir)" cnc d2k ra'
+	@sh -c './packaging/linux/install-appdata.sh $(CWD) "$(DESTDIR)" "$(datadir)" cnc d2k ra'
 
 install-man: all
 	@mkdir -p $(DESTDIR)$(mandir)/man6/
-	@./utility.sh all --man-page > $(DESTDIR)$(mandir)/man6/openra.6
+	@sh -c './packaging/shared/utility.sh all --man-page > $(DESTDIR)$(mandir)/man6/openra.6'
 
 help:
 	@echo 'to compile, run:'

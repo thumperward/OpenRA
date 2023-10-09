@@ -1,15 +1,8 @@
-#!/bin/sh
+#! /bin/bash
 # Patch *.dll.config files to use system libraries, working around issues with directories and naming schemes
+set -euo pipefail
 
-####
-# This file must stay /bin/sh and POSIX compliant for macOS and BSD portability.
-# Copy-paste the entire script into http://shellcheck.net to check.
-####
-
-set -o errexit || exit $?
-
-patch_config()
-{
+patch_config() {
 	LABEL=$1
 	SEARCHDIRS=$2
 	CONFIG=$3
@@ -21,11 +14,11 @@ patch_config()
 		grep -q "target=\"${REPLACE}\"" "${CONFIG}" || return 0
 
 		printf "Searching for %s... " "${LABEL}"
-		for DIR in ${SEARCHDIRS} ; do
+		for DIR in ${SEARCHDIRS}; do
 			for LIB in ${SEARCH}; do
 				if [ -f "${DIR}/${LIB}" ]; then
 					echo "${LIB}"
-					sed "s|target=\"${REPLACE}\"|target=\"${DIR}/${LIB}\"|" "${CONFIG}" > "${CONFIG}.temp"
+					sed "s|target=\"${REPLACE}\"|target=\"${DIR}/${LIB}\"|" "${CONFIG}" >"${CONFIG}.temp"
 					mv "${CONFIG}.temp" "${CONFIG}"
 					return 0
 				fi
@@ -39,7 +32,7 @@ patch_config()
 		fi
 
 		printf "Searching for %s... " "${LABEL}"
-		for DIR in ${SEARCHDIRS} ; do
+		for DIR in ${SEARCHDIRS}; do
 			for LIB in ${SEARCH}; do
 				if [ -f "${DIR}/${LIB}" ]; then
 					echo "${LIB}"

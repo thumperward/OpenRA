@@ -1,38 +1,12 @@
-#!/bin/bash
-# OpenRA master packaging script
+#! /bin/bash
+set -euo pipefail
 
-set -o errexit -o pipefail || exit $?
+cd "$(dirname "$0")"
+TAG="${1:-$(git tag | tail -1)}" # Tag to release
 
-if [ $# -ne "2" ]; then
-	echo "Usage: $(basename "$0") version outputdir."
-	exit 1
-fi
+targets=$([[ "$OSTYPE" == "darwin*" ]] && echo "macos" || echo "windows_cross linux source")
+for target in $targets; do
+  echo "Building ${target}..."
 
-export GIT_TAG="$1"
-export BUILD_OUTPUT_DIR="$2"
-
-# Set the working dir to the location of this script
-HERE=$(dirname "$0")
-cd "${HERE}"
-
-#build packages using a subshell so directory changes do not persist beyond the function
-function build_package() (
-	function on_build() {
-		echo "$1 package build failed." 1>&2
-	}
-	#trap function executes on any error in the following commands
-	trap "on_build $1" ERR
-	echo "Building $1 package(s)."
-	cd "$1"
-	./buildpackage.sh "${GIT_TAG}" "${BUILD_OUTPUT_DIR}"
-)
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  build_package macos
-else
-  build_package windows
-  build_package linux
-  build_package source
-fi
-
-echo "Package build done."
+  "./$target/buildpackage.sh" "$TAG"
+done
