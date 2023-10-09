@@ -30,6 +30,7 @@ packaging/windows_cross/buildpackage.sh
 ## Linux
 
 -   ~Verify it works~
+    -   Fix crash on map launch
 -   Fix dedicated server launch script
 -   Add other packaging options
 
