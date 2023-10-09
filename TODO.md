@@ -29,7 +29,8 @@ packaging/windows_cross/buildpackage.sh
 
 ## Linux
 
--   Verify it works
+-   ~Verify it works~
+-   Fix dedicated server launch script
 -   Add other packaging options
 
 ## MacOS

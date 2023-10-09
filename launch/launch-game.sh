@@ -1,46 +1,36 @@
 #! /bin/bash
 set -euo pipefail
 
-ENGINEDIR=$(dirname "$0")/../src/bin
-# Copy resources to bin dir
-cp -rp "${ENGINEDIR}/../../res/glsl" "${ENGINEDIR}"
-
-if command -v mono >/dev/null 2>&1 && [ "$(grep -c .NETCoreApp,Version= "${ENGINEDIR}/OpenRA.dll")" = "0" ]; then
-	RUNTIME_LAUNCHER="mono --debug"
-else
-	RUNTIME_LAUNCHER="dotnet"
-fi
-
-if command -v python3 >/dev/null 2>&1; then
-	LAUNCHPATH=$(python3 -c 'import os,sys; print(os.path.realpath(sys.argv[1]))' "$0")
-else
-	LAUNCHPATH=$(python -c 'import os,sys; print(os.path.realpath(sys.argv[1]))' "$0")
-fi
+ENGINEDIR=$(dirname "$0")/../packaging/linux/
 
 # Prompt for a mod to launch if one is not already specified
-MODARG=''
-if [ z"${*#*Game.Mod=}" = z"$*" ]; then
+MODARG="${1:-}"
+if [ -z "${MODARG:-}" ]; then
 	if command -v zenity >/dev/null; then
-		TITLE=$(zenity --title='Launch OpenRA' --list --hide-header --text 'Select game mod:' --column 'Game mod' 'Red Alert' 'Tiberian Dawn' 'Dune 2000' 'Tiberian Sun' || echo "cancel")
+		TITLE=$(
+			zenity \
+				--list --hide-header --title='Launch OpenRA' --text 'Select game mod:' \
+				--column 'Game mod' 'Red Alert' 'Tiberian Dawn' 'Dune 2000' 'Tiberian Sun' || echo "cancel"
+		)
 		if [ "$TITLE" = "Tiberian Dawn" ]; then
-			MODARG='Game.Mod=cnc'
+			MODARG='cnc'
 		elif [ "$TITLE" = "Dune 2000" ]; then
-			MODARG='Game.Mod=d2k'
+			MODARG='d2k'
 		elif [ "$TITLE" = "Tiberian Sun" ]; then
-			MODARG='Game.Mod=ts'
+			MODARG='ts'
 		elif [ "$TITLE" = "Red Alert" ]; then
-			MODARG='Game.Mod=ra'
+			MODARG='ra'
 		else
 			exit 0
 		fi
 	else
-		echo "Please provide the Game.Mod=\$MOD argument (possible \$MOD values: ra, cnc, d2k, ts)"
+		echo "Please provide the GAMEMOD=\$MOD argument (possible \$MOD values: ra, cnc, d2k, ts)"
 		exit 1
 	fi
 fi
 
 # Launch the engine with the appropriate arguments
-${RUNTIME_LAUNCHER} "${ENGINEDIR}/OpenRA.dll" Engine.LaunchPath="${LAUNCHPATH}" ${MODARG} "$@" && rc=0 || rc=$?
+"${ENGINEDIR}/${MODARG}/build/.appdir/AppRun" && rc=0 || rc=$?
 
 # Show a crash dialog if something went wrong
 if [ "${rc}" != 0 ] && [ "${rc}" != 1 ]; then

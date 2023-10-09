@@ -80,7 +80,7 @@ function build_linux_appimage() {
 		ARCH=x86_64 appimagetool-x86_64.AppImage --appimage-extract-and-run --no-appstream "${APPDIR}" "${OUTPUTDIR}/${APPIMAGE}"
 	fi
 
-	rm -rf "${APPDIR}"
+	# rm -rf "${APPDIR}"
 }
 
 cd "$(dirname "$0")"
