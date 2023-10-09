@@ -6,6 +6,7 @@ RUN echo "deb http://deb.debian.org/debian bullseye-backports main" > /etc/apt/s
 
 # Install dependencies.
 RUN apt-get update && apt-get install -y --no-install-recommends \
+  file \
   nsis \
   imagemagick \
   wine64 \

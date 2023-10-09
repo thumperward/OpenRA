@@ -56,7 +56,11 @@ update.log
 .idea
 
 # Temporary packaging directories
-build/windows/
+build/
 packaging/windows_cross/build/
 packaging/linux/ra/
 packaging/linux/ra.appdir/
+packaging/linux/cnc/
+packaging/linux/cnc.appdir/
+packaging/linux/d2k/
+packaging/linux/d2k.appdir/
